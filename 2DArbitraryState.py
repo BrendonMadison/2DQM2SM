@@ -55,8 +55,17 @@ import configparser
 #Import the ConfigParser function
 from ConfigParser2D import ImportConfig
 
+#Import os to create a directory
+import os
+
 #Use config parser to import dictionaries with settings, values
 setd,qmv,smv,ptv = ImportConfig('NeutronOsc.ini')
+
+try:
+    os.mkdir(setd["name"])
+    print("Created directory with name: ",setd["name"])
+except:
+    print("Directory of following name already exists: ",setd["name"])
 
 #Define the symbols for the 2D Hamiltonian
 
@@ -136,7 +145,7 @@ probz = np.abs(np.trace(piz * rho))
 if setd["log"]==True:
     if setd["symbolic"]==True:
         print("Writing symbolic solution")
-        fileqm = open(str(setd["name"])+"_QM.txt","w")
+        fileqm = open(str(setd["name"])+"/QM.txt","w")
         fileqm.write(f'\nHamiltonian, H:\n{H}\n')
         fileqm.write(f'\nTime propagator, U:\n{U}\n')
         fileqm.write(f'\nTime Dependent Waveform, psi(t):\n{psit}\n')
@@ -155,7 +164,7 @@ if setd["log"]==True:
     else:
         print("Writing numeric solution")
         
-        fileqm = open(str(setd["name"])+"_QM.txt","w")
+        fileqm = open(str(setd["name"])+"/QM.txt","w")
         
         #Rederive some values with the explicit forms. Doing this because sympy may simplify it further
         H = H.subs({a0:qmv["a0"],a1:qmv["a1"],a2:qmv["a2"],a3:qmv["a3"]})
@@ -250,7 +259,7 @@ if setd["log"]==True:
             plt.xlabel("Time (sec)")
             plt.ylabel("Probability or Density (normalized units)")
             plt.legend()
-            plt.savefig(str(setd["name"])+'IntegratedTransitionProb.png')
+            plt.savefig(str(setd["name"])+'/IntegratedTransitionProb.png')
             plt.close()
             
             #Now that we have the time dependent we can get a power spectrum
@@ -266,7 +275,7 @@ if setd["log"]==True:
             plt.ylabel("Power (arbitrary units)")
             plt.title("Probability Density Power Spectrum")
             plt.legend()
-            plt.savefig(str(setd["name"])+'TransitionProbPowSpec.png')
+            plt.savefig(str(setd["name"])+'/TransitionProbPowSpec.png')
             plt.close()
             
             #Plots and saves the probability "components"
@@ -298,7 +307,7 @@ if setd["log"]==True:
             plt.legend()
             plt.xlabel("Time (sec)")
             plt.ylabel("Probability")
-            plt.savefig(str(setd["name"])+'WaveformProbs.png')
+            plt.savefig(str(setd["name"])+'/WaveformProbs.png')
             plt.close()
             
             #The relative abundance of each state can be estimated using the previous "unobservable" probabilities
@@ -309,7 +318,7 @@ if setd["log"]==True:
             plt.xlabel("Time (sec)")
             plt.ylabel("Relative Counts (Normalized #)")
             plt.legend()
-            plt.savefig(str(setd["name"])+'RelativeAbundance.png')
+            plt.savefig(str(setd["name"])+'/RelativeAbundance.png')
             plt.close()
             
             #Normalize using these 5 as a basis. Not a good idea in terms of physics but it makes the plot presentable.
@@ -340,7 +349,7 @@ if setd["log"]==True:
             plt.xlabel('Time (sec)')
             plt.ylabel('Probability')
             plt.title("Probabilities for x y z Projections on Density Matrix ")
-            plt.savefig(str(setd["name"])+'ProjXYZProbs.png')
+            plt.savefig(str(setd["name"])+'/ProjXYZProbs.png')
             plt.close()
             
             #Plot the + - basis
@@ -352,7 +361,7 @@ if setd["log"]==True:
             plt.xlabel('Time (sec)')
             plt.ylabel('Probability')
             plt.title("Probabilities for +- Projections on Density Matrix ")
-            plt.savefig(str(setd["name"])+'ProjPlusMinusProbs.png')
+            plt.savefig(str(setd["name"])+'/ProjPlusMinusProbs.png')
             plt.close()            
             
             #plot the A and B probabilities
@@ -365,7 +374,7 @@ if setd["log"]==True:
             plt.xlabel('Time (sec)')
             plt.ylabel('Probability')
             plt.title("Probabilities for states A and B on Density Matrix ")
-            plt.savefig(str(setd["name"])+'ABProbs.png')
+            plt.savefig(str(setd["name"])+'/ABProbs.png')
             plt.close()
             
             #plot the Shannon entropy
@@ -377,7 +386,7 @@ if setd["log"]==True:
             plt.xlabel('Time (sec)')
             plt.ylabel('Entropy (unitless)')
             plt.title("Shannon/Information Entropy of Density Matrix")
-            plt.savefig(str(setd["name"])+'EntropyQM.png')
+            plt.savefig(str(setd["name"])+'/EntropyQM.png')
             plt.close()
         else:
             print("Plotting not enabled.")
@@ -530,7 +539,7 @@ if setd["symbolic"] == False:
         axs[2].set(xlabel='beta, [1/Joules]',ylabel='Entropy, [Joules/Kelvin]',title='Entropy per Temperature')
         axs[2].legend()
         fig.suptitle("")
-        plt.savefig(str(setd["name"])+'_1ParticleSM.png')
+        plt.savefig(str(setd["name"])+'/1ParticleSM.png')
         plt.close()
         
         #Plot the 2D plots (the ones that depend on beta and N)
@@ -549,7 +558,7 @@ if setd["symbolic"] == False:
         axs[2].set(xlabel='beta, [1/Joules]',ylabel='Number, N',title='Entropy per Temperature and N')
         #axs[2].legend()
         fig.suptitle("")
-        plt.savefig(str(setd["name"])+'_NParticlesSM.png')
+        plt.savefig(str(setd["name"])+'/NParticlesSM.png')
         plt.close()
         
         #Now with chemical potential and pressure
@@ -563,13 +572,13 @@ if setd["symbolic"] == False:
         axs[1].set(xlabel='beta, [1/Joules]',ylabel='Volume, [meters^3]',title='Pressure')
         #axs[1].legend()
         fig.suptitle("")
-        plt.savefig(str(setd["name"])+'_ChemPress.png')
+        plt.savefig(str(setd["name"])+'/ChemPress.png')
         plt.close()
         
 
 if setd["log"] == True:
     print("Generating statmech log.")
-    filesm = open(str(setd["name"])+"_SM.txt","w")
+    filesm = open(str(setd["name"])+"/SM.txt","w")
     filesm.write(f'\nPartition function, Z:\n{partfun}\n')
     filesm.write(f'\nlog of partition function, lnZ:\n{lnZ}\n')
     filesm.write(f'\nMean Energy, <E>:\n{meanE}\n')

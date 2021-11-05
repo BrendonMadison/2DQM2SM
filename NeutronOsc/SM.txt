@@ -1,0 +1,37 @@
+
+Partition function, Z:
+(exp(1.602e-11*beta) + 1)*exp(-8.316e-11*beta)
+
+log of partition function, lnZ:
+-6.714e-11*beta + log(1 + exp(-1.503e-10*beta))
+
+Mean Energy, <E>:
+1.4229e-10 - 7.515e-11*tanh(1.503e-10*beta)
+
+Isochoric Heat Capacity, C_V:
+3.11743242e-43*beta**2*(0.5*tanh(1.503e-10*beta) + 0.5)
+
+Thermal Entropy, S:
+-1.03707e-33*beta*(1.0 - tanh(1.503e-10*beta)) + 1.38e-23*log(1 + exp(-1.503e-10*beta))
+
+
+---Repeating for a system of N of these identical states---
+
+
+log of partition function, lnZ_N:
+-6.714e-11*N*beta + log(1 + exp(-1.503e-10*N*beta))
+
+Mean Energy, <E_N>:
+7.515e-11*N*(1.0 - tanh(1.503e-10*N*beta)) + 6.714e-11*N
+
+Isochoric Heat Capacity, C_VN:
+3.11743242e-43*N**2*beta**2*(0.5*tanh(1.503e-10*N*beta) + 0.5)
+
+Thermal Entropy, S_N:
+-1.03707e-33*N*beta*(1.0 - tanh(1.503e-10*N*beta)) + 1.38e-23*log(1 + exp(-1.503e-10*N*beta))
+
+Chemical potential, mu:
+-7.515e-11*tanh(1.503e-10*N*beta) - 5.913e-11
+
+Pressure, P_N:
+7.515e-11*tanh(1.503e-10*V*beta) + 5.913e-11
