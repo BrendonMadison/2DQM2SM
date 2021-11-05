@@ -428,19 +428,19 @@ if setd["simp"] == True:
     print("Hand simplification used for statistical mechanics results.")
     #Calculate 1 particle characteristics
     #natural log partition function, ln(Z)
-    lnZ = -0.5*beta*(a0-a3) + ln(exp(-1*a0*beta) + 1)
+    lnZ = -0.5*beta*(a0-a3) + ln(exp(-1*a3*beta) + 1)
     #Mean energy , <E>. Includes thermal and quantum parts
     #meanE = 0.5*(a0-a3) + a0/(exp(beta*a0)+1)
     #meanE = 0.5*(a0-a3) + a0*expit(-1.0*beta*a0)
-    meanE = 0.5*(a0-a3) + a0*0.5*(1.0-tanh(beta*a0))
+    meanE = 0.5*(a0-a3) + a3*0.5*(1.0-tanh(beta*a3))
     #Thermal entropy. Not the Shannon (aka cannonical or information) entropy.
     #entS = kB * (ln(exp(-beta*a0)+1) - beta*a0/(exp(beta*a0)+1))
     #entS = kB * (ln(1.0/expit(beta*a0)) - beta*a0*expit(-1.0*beta*a0))
-    entS = kB * (ln(exp(-beta*a0)+1) - beta*a0*0.5*(1.0-tanh(beta*a0)))
+    entS = kB * (ln(exp(-beta*a3)+1) - beta*a3*0.5*(1.0-tanh(beta*a3)))
     #Isochoric heat capacity, i.e. heat capacity for a fixed volume
     #cV = a0**2 * beta**2 * kB * 1/(2*cosh(a0*beta) + 2)
     #cV = a0**2 * beta**2 * kB * exp(beta*a0)/(exp(beta*a0) + 1)
-    cV = a0**2 * beta**2 * kB * (1 - 0.5*(1.0-tanh(beta*a0)))
+    cV = a3**2 * beta**2 * kB * (1 - 0.5*(1.0-tanh(beta*a3)))
     #cV = a0**2 * beta**2 * kB * (1 - expit(-1.0 * beta*a0))
     
     #Somewhat repeating now but for a system with N particles
@@ -451,26 +451,26 @@ if setd["simp"] == True:
     #This also assumes they are identical and non-interacting.
     #Else you pick up 1/N! and other things
     #Our new N dependent values:
-    lnZ_N = -0.5*beta*N*(a0-a3) + ln(exp(-1*a0*beta*N) + 1)
+    lnZ_N = -0.5*beta*N*(a0-a3) + ln(exp(-1*a3*beta*N) + 1)
     #meanE_N = 0.5*N*(a0-a3) + a0*N/(exp(beta*a0*N)+1)
-    meanE_N = 0.5*N*(a0-a3) + a0*N*0.5*(1.0-tanh(beta*a0*N))
+    meanE_N = 0.5*N*(a0-a3) + a3*N*0.5*(1.0-tanh(beta*a3*N))
     #entS_N = kB * (ln(exp(-beta*a0*N)+1) - beta*a0*N/(exp(beta*a0*N)+1))
-    entS_N = kB * (ln(exp(-beta*a0*N)+1) - beta*a0*N*0.5*(1.0-tanh(beta*a0*N)))
+    entS_N = kB * (ln(exp(-beta*a3*N)+1) - beta*a3*N*0.5*(1.0-tanh(beta*a3*N)))
     #cV_N = a0**2 * N**2 * beta**2 * kB * (1 - 1/(exp(beta*a0*N)+1))
-    cV_N = a0**2 * N**2 * beta**2 * kB * (1 - 0.5*(1.0-tanh(beta*a0*N)))
+    cV_N = a3**2 * N**2 * beta**2 * kB * (1 - 0.5*(1.0-tanh(beta*a3*N)))
     #Since we have number we can get the chemical potential by differentiating with respect to N
     #chem = -1.0/beta * diff(lnZ_N,N)
     #chem = -1.0/beta*( (beta*(a0-a3) - a0*beta/(exp(a0*beta*N)+1))
     #chem = (a0/(exp(a0*beta*N)+1) - (a0-a3))
-    chem = (a0*0.5*(1.0-tanh(beta*a0*N)) - (a0-a3))
+    chem = (a3*0.5*(1.0-tanh(beta*a3*N)) - (a0-a3))
     #Remember that N = n * V where n is the number density and V is the volume.
     #We are treating N as a variable and n as a variable to keep V constant since we used the isochoric heat capacity.
     #In other words, we can transform from N to V by using this relationship V = N/n ...
     #Then we can differentiate with respect to volume in order to get the pressure.
-    lnZ_V = -0.5*beta*r*V*(a0-a3) + ln(exp(-1*a0*beta*r*V) + 1)
+    lnZ_V = -0.5*beta*r*V*(a0-a3) + ln(exp(-1*a3*beta*r*V) + 1)
     #press = 1/beta * diff(lnZ_V,V) -> this is similar to chemical potential
     #press = r*((a0-a3) - a0/(exp(a0*beta*r*V)+1)) #Check that the units are in Joules/Volume
-    press = r*((a0-a3) - a0*0.5*(1.0-tanh(beta*a0*r*V)))
+    press = r*((a0-a3) - a3*0.5*(1.0-tanh(beta*a3*r*V)))
 else:
     print("Machine simplification and solutions used for statistical mechanics results.")
     #Calculating 1 particle characteristics ... to see explanations and notes read the above section
@@ -484,13 +484,13 @@ else:
     cV = kB * beta**2 * diff(diff(lnZ,beta),beta)
     #Notice that cV and entropy have the same units of Energy/Temperature
     #Repeat for N dependent terms and partition function
-    lnZ_N = -0.5*beta*N*(a0-a3) + ln(exp(-1*a0*beta*N) + 1)
+    lnZ_N = -0.5*beta*N*(a0-a3) + ln(exp(-1*a3*beta*N) + 1)
     meanE_N = simplify(-1*diff(lnZ_N,beta))
     entS_N = kB*lnZ_N + kB*beta*meanE_N
     cV_N = kB * beta**2 * diff(diff(lnZ_N,beta),beta)
     #The N dependent terms, chemical potential and pressure
     chem = -1.0/beta * diff(lnZ_N,N)
-    lnZ_V = -0.5*beta*r*V*(a0-a3) + ln(exp(-1*a0*beta*r*V) + 1)
+    lnZ_V = -0.5*beta*r*V*(a0-a3) + ln(exp(-1*a3*beta*r*V) + 1)
     press = 1/beta * diff(lnZ_V,V)
     
 if setd["symbolic"] == False:
